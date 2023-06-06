@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+
+  node-1:
+    image: coolworldocker/blockchain:latest
+    pull_policy: always
+    hostname: "node-1-8081"
+    environment:
+      - DEFAULT_MODULE_NAME=blockchain.main
+      - BLOCKCHAIN_NODES=host.docker.internal:8082
+    ports:
+      - "8081:80"
+  node-2:
+    image: coolworldocker/blockchain:latest
+    pull_policy: always
+    hostname: "node-2-8082"
+    environment:
+      - DEFAULT_MODULE_NAME=blockchain.main
+      - BLOCKCHAIN_NODES=host.docker.internal:8081
+    ports:
+      - "8082:80"
