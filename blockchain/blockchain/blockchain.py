@@ -18,6 +18,10 @@ class Blockchain:
         self.node = node
         self.new_block(previous_hash="1", proof=100)
 
+    @property
+    def last_block(self):
+        return self.chain[-1]
+
     def register_node(self, address):
         try:
             response = requests.get(f"{address}/node")
@@ -88,8 +92,11 @@ class Blockchain:
             "timestamp": time(),
             "transaction": self.current_transaction,
             "proof": proof,
-            "previous_hash": previous_hash or self.hash(self.chain[-1]),
+            "previous_hash": previous_hash or self.hash(self.last_block),
         }
+        if len(self.chain) > 1:
+            if self.hash(self.last_block) != block["previous_hash"]:
+                return False
         self.current_transaction = []
         self.chain.append(block)
         return block
@@ -103,10 +110,6 @@ class Blockchain:
             }
         )
         return self.last_block["index"] + 1
-
-    @property
-    def last_block(self):
-        return self.chain[-1]
 
     @staticmethod
     def hash(block):
