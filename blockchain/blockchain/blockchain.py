@@ -129,7 +129,9 @@ class Blockchain:
         while is_valid is False:
             is_valid, guess_hash = self.valid_proof(last_proof, proof, last_hash)
             proof += 1
-        logger.debug(f"last_proof: {last_proof}, proof: {proof}, last_hash: {last_hash}")
+        logger.debug(
+            f"last_proof: {last_proof}, proof: {proof}, last_hash: {last_hash}"
+        )
         logger.debug(f"guess_hash: {guess_hash}")
         return proof
 
